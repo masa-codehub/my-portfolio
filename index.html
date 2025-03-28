@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>あなたの名前 | ポートフォリオ</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">あなたの名前</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#skills">Skills</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#projects">Projects</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header class="bg-primary text-white text-center py-5">
+        <div class="container">
+            <h1 class="display-4">あなたの名前</h1>
+            <p class="lead">あなたの肩書やキャッチフレーズ (例: Web Developer / Designer)</p>
+        </div>
+    </header>
+
+    <main>
+        <section id="about" class="py-5">
+            <div class="container">
+                <h2 class="text-center mb-4"><i class="bi bi-person-fill me-2"></i>About Me</h2>
+                <div class="row align-items-center">
+                    <div class="col-md-4 text-center mb-3 mb-md-0">
+                        <img src="images/your_photo.jpg" alt="あなたの写真" class="img-fluid rounded-circle profile-pic">
+                    </div>
+                    <div class="col-md-8">
+                        <p>
+                            ここに自己紹介文を入力します。これまでの職務経歴の概要や、得意なこと、
+                            仕事に対する考え方などを自由に記述してください。Bootstrapのクラスを使って
+                            見た目を調整することも可能です。例えば、<code class="bg-light p-1 rounded">.fw-bold</code>で太字、
+                            <code class="bg-light p-1 rounded">.text-primary</code>で主要な色（青）になります。
+                        </p>
+                        <p>段落を変える場合は、そのままpタグを続けます。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="py-5 bg-light">
+            <div class="container">
+                <h2 class="text-center mb-4"><i class="bi bi-tools me-2"></i>Skills</h2>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <h4>プログラミング & マークアップ</h4>
+                        <ul class="list-group">
+                            <li class="list-group-item">HTML5, CSS3, JavaScript</li>
+                            <li class="list-group-item">Python (Django, Flask)</li>
+                            <li class="list-group-item">SQL (PostgreSQL, MySQL)</li>
+                            </ul>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <h4>ツール & その他</h4>
+                        <ul class="list-group">
+                            <li class="list-group-item">Git, GitHub</li>
+                            <li class="list-group-item">Docker</li>
+                            <li class="list-group-item">Figma, Adobe XD</li>
+                            <li class="list-group-item">英語 (TOEIC 900点)</li>
+                            </ul>
+                    </div>
+                    </div>
+            </div>
+        </section>
+
+        <section id="projects" class="py-5">
+            <div class="container">
+                <h2 class="text-center mb-4"><i class="bi bi-briefcase-fill me-2"></i>Projects</h2>
+                <div class="row g-4">
+                    <div class="col-lg-4 col-md-6">
+                        <div class="card h-100 shadow-sm">
+                            <img src="images/project1_thumb.jpg" class="card-img-top" alt="プロジェクト1サムネイル">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">プロジェクト名 1</h5>
+                                <p class="card-text">プロジェクトの簡単な説明。どのような目的で、何を作成したかなどを記述します。</p>
+                                <p class="card-text"><small class="text-muted">使用技術: HTML, CSS, JavaScript</small></p>
+                                <div class="mt-auto text-center"> </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="card h-100 shadow-sm">
+                            <img src="images/project2_thumb.jpg" class="card-img-top" alt="プロジェクト2サムネイル">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">プロジェクト名 2</h5>
+                                <p class="card-text">このプロジェクトでは、〇〇の課題を解決するために△△を開発しました。</p>
+                                <p class="card-text"><small class="text-muted">使用技術: React, Node.js, MongoDB</small></p>
+                                <div class="mt-auto text-center">
+                                     </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="card h-100 shadow-sm">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">プロジェクト名 3</h5>
+                                <p class="card-text">〇〇分析を行い、業務改善提案を実施しました。</p>
+                                <p class="card-text"><small class="text-muted">使用技術: Python (Pandas), SQL, Tableau</small></p>
+                                <div class="mt-auto text-center">
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+            </div>
+        </section>
+
+        <section id="contact" class="py-5 bg-light">
+            <div class="container text-center">
+                <h2 class="mb-4"><i class="bi bi-envelope-fill me-2"></i>Contact</h2>
+                <p class="lead">お気軽にご連絡ください。</p>
+                <p>
+                    Email: <a href="mailto:your_email@example.com" class="text-decoration-none">your_email@example.com</a>
+                </p>
+                <p>
+                    <a href="https://github.com/your_username" target="_blank" class="btn btn-outline-dark btn-lg mx-2" aria-label="GitHub">
+                        <i class="bi bi-github"></i>
+                    </a>
+                    <a href="https://linkedin.com/in/your_profile" target="_blank" class="btn btn-outline-primary btn-lg mx-2" aria-label="LinkedIn">
+                        <i class="bi bi-linkedin"></i>
+                    </a>
+                    </p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="py-4 bg-dark text-white text-center">
+        <div class="container">
+            <p class="mb-0">&copy; 2025 あなたの名前. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+</body>
+</html>

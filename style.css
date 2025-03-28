@@ -1,0 +1,44 @@
+/* style.css - Bootstrapのスタイルを上書きしたり、独自のスタイルを追加 */
+
+/* Navbarの高さを考慮してbody上部にpaddingを追加 (sticky-top使用時) */
+body {
+    padding-top: 56px; /* Navbarの高さに合わせて調整 */
+}
+
+/* Aboutセクションのプロフィール写真サイズ調整 */
+#about .profile-pic {
+    width: 200px;   /* 最大幅 */
+    height: 200px;  /* 最大高さ */
+    object-fit: cover; /* 画像の比率を保ちつつ切り抜き */
+}
+
+/* カードの高さを揃えるための設定 (h-100 クラス使用時) */
+.card {
+    /* 必要であれば、さらに細かいスタイル調整 */
+}
+
+.card-body {
+    /* flex関連のスタイルが既にあるので、必要に応じて調整 */
+}
+
+/* 他に独自のスタイルがあればここに追加 */
+.hero-section { /* 例えば、独自のヒーローセクションを作りたい場合 */
+    /* background: url('images/hero-background.jpg') no-repeat center center; */
+    /* background-size: cover; */
+    /* height: 60vh; */
+}
+
+/* Bootstrap Iconsを使う場合、サイズや色の調整など */
+.bi {
+    /* vertical-align: middle; */ /* アイコンの位置調整 */
+}
+
+/* レスポンシブ対応の追加調整 */
+@media (max-width: 768px) {
+    body {
+        padding-top: 56px; /* スマホ時のNavbar高さが異なる場合は調整 */
+    }
+    h1.display-4 {
+        font-size: 2.5rem; /* スマホでは少し小さく */
+    }
+}
