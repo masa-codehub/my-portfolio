@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ポートフォリオ: Pythonによるプロキシ経由Edgeブラウザ自動操作基盤 (PyProxyRot)</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <style>
+        body { padding-top: 20px; padding-bottom: 20px; }
+        h2 { margin-top: 1.8em; border-bottom: 1px solid #eee; padding-bottom: 0.5em; }
+        .section-icon { font-size: 1.5rem; margin-right: 0.5rem; vertical-align: middle; }
+        .tech-stack .badge { font-size: 0.9rem; padding: 0.5em 0.8em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="pb-3 mb-4 border-bottom">
+            <h1><i class="bi bi-shield-lock-fill text-primary"></i> プロジェクト: Pythonによるプロキシ経由Edgeブラウザ自動操作基盤 (PyProxyRot)</h1>
+            <p class="lead">Seleniumとプロキシリストを活用し、IP制限回避の基盤となるブラウザ操作クラスを構築</p>
+        </header>
+
+        <section id="usecase">
+            <h2><i class="bi bi-lightbulb section-icon"></i>想定ユースケース</h2>
+            <p>このプロジェクトは、以下のような課題やニーズを持つ開発者やチームに役立つことを想定して開発されました。</p>
+            <ul>
+                <li>Webスクレイピングや自動テスト実行時に、同一IPアドレスからの連続アクセスによるアクセス制限やブロックを回避したい。</li>
+                <li>複数のプロキシサーバーを利用する計画があり、事前に各プロキシ経由での接続性やターゲットサイトの表示内容を手軽に確認したい。</li>
+                <li>既存のSelenium (Microsoft Edge) を用いたPythonプログラムに、プロキシ設定機能を簡単かつ再利用可能な形で組み込みたい。</li>
+                <li>Dockerを利用して、プロキシ接続を含むブラウザ自動操作のテスト環境を再現性高く構築・共有したい。</li>
+                <li>プロキシ設定とWebDriver操作のロジックを分離し、将来的なIPローテーション戦略の実装を見据えた基盤を準備したい。</li>
+            </ul>
+        </section>
+
+        <section id="scenario">
+            <h2><i class="bi bi-people section-icon"></i>ご依頼の背景（Scenario）</h2>
+            <p>Webからのデータ収集ツールを開発・運用されているクライアントから、次のようなご相談をいただきました。</p>
+            <blockquote class="blockquote">
+                <p>「最近、データ収集対象のウェブサイトからのIPアドレスベースでのアクセスブロックが頻繁に発生し、ツールの安定稼働とデータ収集効率の低下に悩んでいます。対策として、複数のプロキシサーバーを利用してアクセス元IPアドレスを変更する『IPローテーション』の導入を検討しています。</p>
+                <p>本格的なローテーションロジックを実装する前に、まずは手元にあるプロキシサーバーのリストを使って、PythonのSelenium (Microsoft Edge WebDriver) でプロキシ経由のアクセスが確実に可能かどうかの技術検証を行いたいです。</p>
+                <p>ついては、プロキシを設定してWebDriverを起動し、IP確認サイトなどでIPアドレスが変わっていることを確認できる、シンプルで再利用可能なPythonクラスを開発してもらえないでしょうか？既存のスクレイピングプログラムに組み込むことを想定しているので、簡単に利用できる形だと助かります。」</p>
+            </blockquote>
+            <p>このご依頼を受け、プロキシ設定と基本的なブラウザ操作をカプセル化し、今後の拡張も見据えたクラスライブラリの開発に着手しました。</p>
+        </section>
+
+        <section id="solution">
+            <h2><i class="bi bi-tools section-icon"></i>提案と実装（Solution）</h2>
+            <p>上記のご依頼に対し、以下のコンセプトに基づき、Pythonクラス `ProxiedEdgeBrowser` を中心としたソリューションを設計・実装しました。</p>
+            <ul>
+                <li><strong>プロキシ設定の抽象化と容易化:</strong>
+                    クライアントが用意したプロキシリスト（ホスト名とポート番号を記述したテキストファイル）を読み込み、指定されたインデックスのプロキシサーバーを経由するようにSeleniumの `webdriver.EdgeOptions` を自動設定します。これにより、利用者は複雑なオプション設定を意識することなく、使いたいプロキシを手軽に切り替えられます。
+                </li>
+                <li><strong>接続結果の簡単な可視化:</strong>
+                    設定されたプロキシ経由でEdgeブラウザを起動した後、指定されたURL（デフォルトはIPアドレス確認サイト `https://ipinfo.io/what-is-my-ip`）にアクセスし、その画面のスクリーンショットを指定されたフォルダに保存する機能を提供します。ファイル名には使用したプロキシ情報が含まれるため、どのプロキシでアクセスした結果なのかが一目でわかります。
+                </li>
+                <li><strong>再現性と移植性の高い実行環境:</strong>
+                    開発や実行に必要なPython環境、Selenium Grid (Edge Node)、さらに動作確認用のテストプロキシ (mitmproxy) を含んだDocker Compose設定ファイルを提供しました。これにより、<code>docker compose up</code> コマンド一つで、依存関係の解決や環境差異に悩まされることなく、誰でも同じ環境でアプリケーションを実行・テストできます。特に、プロキシ経由でのHTTPS通信に必要な証明書の信頼問題を解決するため、mitmproxyのCA証明書をSeleniumコンテナに自動で組み込む仕組みも構築しました。
+                </li>
+                <li><strong>保守性と拡張性を重視した設計:</strong>
+                    将来的な機能追加（より高度なIPローテーション戦略の実装、SOCKSプロキシへの対応など）や、既存システムへの組み込みやすさを考慮し、クリーンアーキテクチャやドメイン駆動設計 (DDD) のプラクティスを取り入れました。具体的には、プロキシ情報の取得 (`ProxyProvider`)、使用するプロキシの選択ロジック (`ProxySelector`)、WebDriverオプションの生成 (`EdgeOptionFactory`)、ブラウザ操作の実行 (`ProxiedEdgeBrowser`) といった責務を明確に分離し、依存性の注入 (Dependency Injection) パターンを活用することで、各コンポーネントの疎結合化とテスト容易性を高めています。
+                </li>
+                <li><strong>品質担保のためのテスト:</strong>
+                    コードの品質と信頼性を確保するため、`pytest` フレームワークを用いたテストスイートを整備しました。個々のクラスや関数のロジックを検証するユニットテストに加え、Docker Composeで構築した実際の環境下で、プロキシ設定からスクリーンショット保存までの一連の流れを検証する結合テストも実装しています。
+                </li>
+                <li><strong>基本的なエラーハンドリングとロギング:</strong>
+                    プロキシ接続の失敗、ウェブサイトへのアクセスエラー、ファイル保存時の問題など、想定されるエラーを適切に捕捉し、発生日時やエラー内容をログファイルに出力する基本的なロギング機構を組み込みました。これにより、問題発生時の原因調査が容易になります。
+                </li>
+            </ul>
+             <p>既知の課題として、HTTPSサイトへのプロキシ経由アクセス時に証明書エラーが発生する場合があるため、現状の実装ではテスト目的で証明書検証を無効化するオプション (`--ignore-certificate-errors`) を追加しています。また、特定の環境でWebDriver起動直後のプロキシ設定が反映されない現象への暫定対応として、プロキシリストの最初の項目は初期化用とし、実際のテスト対象プロキシは2番目以降に記述いただく運用ルールとしています。</p>
+        </section>
+
+        <section id="deliverables">
+            <h2><i class="bi bi-box-seam section-icon"></i>成果物（Deliverables）</h2>
+            <p>本プロジェクトの成果物は、PythonとSelenium (Microsoft Edge) を使用して、指定されたプロキシサーバー経由でウェブサイトにアクセスし、その結果をスクリーンショットとして保存する機能を提供するPythonクラスライブラリ、およびその実行・テスト環境一式です。</p>
+            <p>主な特徴は以下の通りです。</p>
+            <ul>
+                <li>プロキシリスト（テキストファイル）から簡単にプロキシを指定可能</li>
+                <li>プロキシ経由での接続結果をスクリーンショットで視覚的に確認</li>
+                <li>Docker Composeによる再現性の高い実行環境</li>
+                <li>クリーンアーキテクチャ等を意識した、再利用性と拡張性の高い設計</li>
+                <li>ユニットテストおよび結合テストによる品質担保</li>
+            </ul>
+            <p>IPローテーション機能の実装に向けた基盤技術の検証や、複数のプロキシサーバーの接続テストを効率的に行いたい場合に活用いただけます。</p>
+
+            <p>ソースコードは以下のGitHubリポジトリで公開しています。</p>
+            <p>
+                <a href="https://github.com/masa-codehub/PyProxyRot.git" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                    <i class="bi bi-github"></i> GitHubリポジトリへ (masa-codehub/PyProxyRot)
+                </a>
+            </p>
+
+            <h3 class="mt-4">実行結果イメージ</h3>
+            <p>以下は、IP確認サイトにアクセスし、プロキシごとにスクリーンショットを保存した際のイメージです。（画像はサンプルです）</p>
+            <figure class="figure">
+              <img src="path/to/screenshot_example.png" class="figure-img img-fluid rounded" alt="プロキシ経由でのIP確認サイトのスクリーンショット例">
+              <figcaption class="figure-caption">各プロキシ経由でIP確認サイトを開き、スクリーンショットを保存した例。</figcaption>
+            </figure>
+
+        </section>
+
+        <section id="techstack" class="tech-stack">
+            <h2><i class="bi bi-hdd-stack section-icon"></i>使用技術（Tech Stack）</h2>
+            <ul class="list-inline">
+                <li class="list-inline-item"><span class="badge bg-primary"><i class="bi bi-filetype-py"></i> Python 3.12</span></li>
+                <li class="list-inline-item"><span class="badge bg-success"><i class="bi bi-magic"></i> Selenium</span></li>
+                <li class="list-inline-item"><span class="badge bg-info text-dark"><i class="bi bi-microsoft"></i> Microsoft Edge / msedgedriver</span></li>
+                <li class="list-inline-item"><span class="badge bg-secondary"><i class="bi bi-box"></i> Docker</span></li>
+                <li class="list-inline-item"><span class="badge bg-secondary"><i class="bi bi-boxes"></i> Docker Compose</span></li>
+                <li class="list-inline-item"><span class="badge bg-warning text-dark"><i class="bi bi-shield-shaded"></i> mitmproxy</span></li>
+                <li class="list-inline-item"><span class="badge bg-danger"><i class="bi bi-check2-circle"></i> pytest</span></li>
+                <li class="list-inline-item"><span class="badge bg-light text-dark border"><i class="bi bi-diagram-3"></i> TDD</span></li>
+                <li class="list-inline-item"><span class="badge bg-light text-dark border"><i class="bi bi-puzzle"></i> DDD</span></li>
+                <li class="list-inline-item"><span class="badge bg-light text-dark border"><i class="bi bi-layers"></i> Clean Architecture</span></li>
+                <li class="list-inline-item"><span class="badge bg-dark"><i class="bi bi-filetype-html"></i> HTML5</span></li>
+                <li class="list-inline-item"><span class="badge bg-dark"><i class="bi bi-filetype-css"></i> CSS3</span></li>
+                <li class="list-inline-item"><span class="badge bg-dark"><i class="bi bi-bootstrap"></i> Bootstrap 5</span></li>
+            </ul>
+        </section>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
